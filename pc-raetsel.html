@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <!-- Wichtig fürs iPad: Verhindert automatisches Zoomen -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PC Anmeldung – EduBreakout</title>
+    <link rel="stylesheet" href="pc-style.css">
+</head>
+<body>
+
+    <!-- Hintergrund mit Weichzeichner für den typischen Login-Look -->
+    <div class="login-background"></div>
+
+    <!-- Die Anmeldeseite -->
+    <div class="login-container">
+        
+        <!-- Zurück-Button zum Hauptraum -->
+        <a href="index.html" class="back-button">⬅ Zurück zum Raum</a>
+
+        <!-- Profilbild (Symbol für den Benutzer) -->
+        <div class="profile-pic">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        </div>
+
+        <!-- Benutzername (Gesperrt) -->
+        <div class="username">Tim Berners-Lee</div>
+
+        <!-- Anmeldeformular -->
+        <form id="loginForm" onsubmit="checkPassword(event)">
+            <input type="password" id="passwordInput" placeholder="Passwort eingeben" required autocomplete="off">
+            <button type="submit" class="submit-btn">Anmelden</button>
+        </form>
+
+        <!-- Fehlermeldung (standardmäßig unsichtbar) -->
+        <div id="errorMessage" class="error-msg">Falsches Passwort! Versuche es noch einmal.</div>
+
+    </div>
+
+    <!-- JavaScript für die sichere Passwortprüfung -->
+    <script>
+        // Diese Funktion wandelt den Text in einen sicheren SHA-256 Code um
+        async function sha256(message) {
+            const msgBuffer = new TextEncoder().encode(message);                    
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function checkPassword(event) {
+            event.preventDefault(); // Verhindert das Neuladen der Seite
+            
+            const input = document.getElementById('passwordInput').value;
+            const errorDiv = document.getElementById('errorMessage');
+            
+            // Das ist der verschlüsselte Code (Hash) für das richtige Passwort
+            const correctHash = "ce470e89184032190bc5e6ce3198b27094d9a2784466750100249c91a8c9d4cb";
+            
+            // Berechne den Hash des eingegebenen Passworts
+            const inputHash = await sha256(input);
+
+            if (inputHash === correctHash) {
+                // Passwort ist richtig! Weiterleitung zur nächsten Seite
+                window.location.href = "pc-erfolg.html"; 
+            } else {
+                // Passwort ist falsch! Zeige die rote Meldung an
+                errorDiv.style.display = "block";
+                document.getElementById('passwordInput').value = ""; // Feld leeren
+            }
+        }
+    </script>
+</body>
+</html>

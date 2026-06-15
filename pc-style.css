@@ -1,0 +1,141 @@
+* {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
+}
+
+/* Hintergrundbild mit Unschärfe-Effekt (wie bei modernen Betriebssystemen) */
+.login-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url('dein-raum-bild.jpg'); /* Nutzt dein Raumbild als Hintergrund */
+    background-size: cover;
+    background-position: center;
+    filter: blur(20px) brightness(0.6); /* Macht das Bild dunkel und unscharf */
+    z-index: 1;
+}
+
+/* Die Box in der Mitte */
+.login-container {
+    position: relative;
+    z-index: 2;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    color: white;
+    padding: 20px;
+}
+
+/* Zurück-Button */
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 15px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+}
+
+/* Rundes Profilbild */
+.profile-pic {
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    margin: 0 auto 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+}
+
+.profile-pic svg {
+    width: 70px;
+    height: 70px;
+    fill: white;
+}
+
+/* Benutzername */
+.username {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 25px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Eingabefeld */
+input[type="password"] {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    text-align: center;
+    outline: none;
+    backdrop-filter: blur(10px);
+    margin-bottom: 15px;
+}
+
+input[type="password"]::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+input[type="password"]:focus {
+    border-color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* Anmelde-Button */
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 25px;
+    background: #007aff; /* iOS Blau */
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.submit-btn:active {
+    background: #0056b3;
+}
+
+/* Fehlermeldung */
+.error-msg {
+    display: none; /* Standardmäßig versteckt */
+    margin-top: 20px;
+    color: #ff3b30; /* Warn-Rot */
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    animation: shake 0.3s ease-in-out;
+}
+
+/* Kleiner Rütteleffekt bei falschem Passwort */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    75% { transform: translateX(8px); }
+}

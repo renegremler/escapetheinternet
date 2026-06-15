@@ -1,0 +1,40 @@
+/* Der Raum passt sich perfekt dem iPad an (4:3 Format) */
+.space {
+    width: 100vw;
+    max-width: 100%;
+    aspect-ratio: 4 / 3;
+    position: relative;
+    background-image: url('raum_mit_objekten.jpg'); /* Hier dein Bild eintragen */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0 auto;
+}
+
+/* Die unsichtbaren Hotspots */
+.hotspot {
+    position: absolute;
+    display: block;
+    
+    /* TIPP ZUM POSITIONIEREN: Aktiviere die nächste Zeile, */
+    /* um zu sehen, wo die Boxen auf dem Bild liegen! */
+    /* background-color: rgba(255, 0, 0, 0.3); */
+}
+
+/* --- HIER POSITIONIERST DU DIE OBJEKTE --- */
+
+/* Beispiel für den PC */
+#hotspot-pc {
+    top: 31%;      /* Abstand vom oberen Rand in % */
+    left: 2%;     /* Abstand vom linken Rand in % */
+    width: 14%;    /* Breite der unsichtbaren Klick-Box */
+    height: 20%;   /* Höhe der unsichtbaren Klick-Box */
+}
+
+/* Beispiel für die Kiste */
+#hotspot-kiste {
+    top: 65%;
+    left: 70%;
+    width: 12%;
+    height: 15%;
+}
