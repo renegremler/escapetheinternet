@@ -1,0 +1,120 @@
+* {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #1c1c1e; /* Dunkler Hintergrund, damit das Handy gut wirkt */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Zurück-Button */
+.back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 12px 20px;
+    border-radius: 25px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+}
+
+.back-btn:active {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Das Smartphone-Gehäuse */
+.phone-frame {
+    position: relative;
+    width: auto;
+    height: 85vh;               /* Nutzt 85% der iPad-Höhe */
+    aspect-ratio: 9 / 19.5;     /* Typisches modernes Smartphone-Format */
+    background: #000000;
+    border: 12px solid #2c2c2e; /* Der äußere schwarze Rahmen */
+    border-radius: 40px; 
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Die obere "Notch" (Kameralinse/Insel) */
+.phone-notch {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 110px;
+    height: 25px;
+    background: #000000;
+    border-radius: 15px;
+    z-index: 5;
+}
+
+/* Der untere Home-Strich */
+.phone-bottom-bar {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 2px;
+    z-index: 5;
+}
+
+/* Der Bildschirmbereich */
+.phone-screen {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;        /* Hintergrundfarbe des Chats, falls Ränder entstehen */
+    
+    /* HIER RECHNEST DU PLATZ FÜR DIE NOTCH EIN: */
+    padding-top: 40px;          /* Schiebt das Bild 40 Pixel nach unten, weg vom Lautsprecher */
+    padding-bottom: 20px;       /* Platz für den unteren Home-Strich */
+    box-sizing: border-box;     /* Wichtig, damit das Padding die Box nicht vergrößert */
+}
+
+/* Das WhatsApp-Chat Bild */
+.chat-image {
+    width: 100%;
+    height: 100%;
+    
+    /* ÄNDERUNG HIER: */
+    object-fit: contain;        /* Zeigt das Bild IMMER komplett an, nichts wird abgeschnitten! */
+    object-position: center;    /* Zentriert das Bild im verbleibenden Displaybereich */
+}
+
+/* --- DER UNSICHTBARE HOTSPOT AUF DEM HANDY --- */
+.phone-hotspot {
+    position: absolute;
+    display: block;
+    
+    /* TIPP ZUM POSITIONIEREN: Aktiviere die nächste Zeile (entferne das /* ), */
+    /* um zu sehen, wo die Klick-Box auf dem Chat-Bild liegt! */
+    /* background-color: rgba(0, 255, 0, 0.3); */
+}
+
+/* Beispiel-Position für den Link im Chatverlauf */
+#chat-link {
+    top: 64%;      /* Abstand von der Oberkante des Handy-Bildschirms in % */
+    left: 4%;     /* Abstand von der Linkskante des Handy-Bildschirms in % */
+    width: 75%;    /* Breite der unsichtbaren Klick-Box */
+    height: 20%;    /* Höhe der unsichtbaren Klick-Box */
+}

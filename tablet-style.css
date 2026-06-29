@@ -1,0 +1,167 @@
+* {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    user-select: none; /* Verhindert das Markieren von Text auf dem iPad */
+    -webkit-user-select: none;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
+}
+
+/* Hintergrund mit Weichzeichner */
+.lock-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url('dein-raum-bild.jpg'); /* Nutzt dein Raumbild als Hintergrund */
+    background-size: cover;
+    background-position: center;
+    filter: blur(25px) brightness(0.6);
+    z-index: 1;
+}
+
+/* Der Hauptcontainer zentriert im Bildschirm */
+.lock-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+}
+
+/* Zurück-Button */
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 15px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.lock-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.lock-header h2 {
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 15px;
+    letter-spacing: 0.5px;
+}
+
+/* Die vier Passcode-Punkte */
+.code-dots {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border: 1.5px solid white;
+    border-radius: 50%;
+    transition: background-color 0.1s ease;
+}
+
+/* Wenn eine Zahl eingegeben wurde, füllt sich der Punkt weiß */
+.dot.filled {
+    background-color: white;
+}
+
+/* Das Ziffern-Raster (3 Spalten) */
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px 25px;
+    justify-items: center;
+    margin-bottom: 25px;
+}
+
+/* Die runden Nummerntasten */
+.key {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-size: 28px;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: background-color 0.1s;
+}
+
+/* Feedback beim Antippen auf dem iPad */
+.key:active {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Platzhalter-Button */
+.key-empty {
+    background: none;
+    border: none;
+    pointer-events: none;
+}
+
+/* Löschen-Button */
+.key-action {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.key-action:active {
+    color: white;
+}
+
+/* Fehlermeldung */
+.error-msg {
+    display: none;
+    color: #ff3b30;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Rütteleffekt für die Punkte bei falscher Eingabe */
+.shake {
+    animation: shakeAnim 0.3s ease-in-out;
+}
+
+@keyframes shakeAnim {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-10px); }
+    40%, 80% { transform: translateX(10px); }
+}

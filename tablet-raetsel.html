@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <!-- Wichtig fürs iPad: Verhindert automatisches Zoomen -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tablet Sperrbildschirm – EduBreakout</title>
+    <link rel="stylesheet" href="tablet-style.css">
+</head>
+<body>
+
+    <!-- Hintergrund mit Weichzeichner für den typischen Sperrbildschirm-Look -->
+    <div class="lock-background"></div>
+
+    <div class="lock-container">
+        
+        <!-- Zurück-Button zum Hauptraum -->
+        <a href="index.html" class="back-button">⬅ Zurück zum Raum</a>
+
+        <div class="lock-header">
+            <h2>Code eingeben</h2>
+            <!-- Die Punkte, die die eingegebenen Ziffern anzeigen -->
+            <div class="code-dots" id="codeDots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+
+        <!-- Das Ziffernfeld (Keypad) -->
+        <div class="keypad">
+            <button class="key" onclick="pressKey('1')">1</button>
+            <button class="key" onclick="pressKey('2')">2</button>
+            <button class="key" onclick="pressKey('3')">3</button>
+            <button class="key" onclick="pressKey('4')">4</button>
+            <button class="key" onclick="pressKey('5')">5</button>
+            <button class="key" onclick="pressKey('6')">6</button>
+            <button class="key" onclick="pressKey('7')">7</button>
+            <button class="key" onclick="pressKey('8')">8</button>
+            <button class="key" onclick="pressKey('9')">9</button>
+            <button class="key-empty"></button>
+            <button class="key" onclick="pressKey('0')">0</button>
+            <button class="key-action" onclick="clearCode()">Löschen</button>
+        </div>
+
+        <!-- Fehlermeldung (standardmäßig unsichtbar) -->
+        <div id="errorMessage" class="error-msg">Falscher Code! Versuche es noch einmal.</div>
+
+    </div>
+
+    <!-- JavaScript für die sichere PIN-Prüfung -->
+    <script>
+        let currentInput = "";
+        const maxDigits = 4;
+        // Der SHA-256 Hash für den Code
+        const correctHash = "8e71b24534e9f3fb3a71263359fed2b7ffb008265e0d34383e319f1b6f5c08f2";
+
+
+        // Funktion zur Umwandlung in einen sicheren SHA-256 Code
+        async function sha256(message) {
+            const msgBuffer = new TextEncoder().encode(message);                    
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        // Wird aufgerufen, wenn eine Zahl getippt wird
+        function pressKey(num) {
+            if (currentInput.length < maxDigits) {
+                currentInput += num;
+                updateDots();
+                
+                // Sobald 4 Ziffern eingegeben wurden, automatisch prüfen
+                if (currentInput.length === maxDigits) {
+                    setTimeout(checkCode, 200); // Kurze Verzögerung für die Animation
+                }
+            }
+        }
+
+        // Löscht die gesamte Eingabe
+        function clearCode() {
+            currentInput = "";
+            updateDots();
+            document.getElementById('errorMessage').style.display = "none";
+        }
+
+        // Aktualisiert die optischen Punkte auf dem Bildschirm
+        function updateDots() {
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, index) => {
+                if (index < currentInput.length) {
+                    dot.classList.add('filled');
+                } else {
+                    dot.classList.remove('filled');
+                }
+            });
+        }
+
+        // Überprüft den Code mittels Hashing
+        async function checkCode() {
+            const inputHash = await sha256(currentInput);
+            const errorDiv = document.getElementById('errorMessage');
+
+            if (inputHash === correctHash) {
+                // Richtiger Code! Weiterleitung zur Erfolgsseite
+                window.location.href = "tablet-erfolg.html";
+            } else {
+                // Falscher Code! Rütteleffekt aktivieren und Fehler zeigen
+                errorDiv.style.display = "block";
+                const container = document.querySelector('.lock-header');
+                container.classList.add('shake');
+                
+                // Rütteleffekt nach der Animation zurücksetzen und Eingabe leeren
+                setTimeout(() => {
+                    container.classList.remove('shake');
+                    clearCode();
+                }, 400);
+            }
+        }
+    </script>
+</body>
+</html>

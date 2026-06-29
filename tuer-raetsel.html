@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <!-- Wichtig fürs iPad: Verhindert automatisches Zoomen -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Türschloss – EduBreakout</title>
+    <link rel="stylesheet" href="tuer-style.css">
+</head>
+<body>
+
+    <!-- Hintergrund mit Weichzeichner (nutzt dein Raumbild) -->
+    <div class="lock-background"></div>
+
+    <div class="lock-container">
+        
+        <!-- Zurück-Button zum Hauptraum -->
+        <a href="index.html" class="back-button">⬅ Zurück zum Raum</a>
+
+        <div class="lock-header">
+            <h2>Zahlencode eingeben</h2>
+            
+            <!-- Das Display, das die eingegebenen Zahlen als Sterne anzeigt -->
+            <div class="code-display" id="codeDisplay">------</div>
+        </div>
+
+        <!-- Das Ziffernfeld (Keypad) -->
+        <div class="keypad">
+            <button class="key" onclick="pressKey('1')">1</button>
+            <button class="key" onclick="pressKey('2')">2</button>
+            <button class="key" onclick="pressKey('3')">3</button>
+            <button class="key" onclick="pressKey('4')">4</button>
+            <button class="key" onclick="pressKey('5')">5</button>
+            <button class="key" onclick="pressKey('6')">6</button>
+            <button class="key" onclick="pressKey('7')">7</button>
+            <button class="key" onclick="pressKey('8')">8</button>
+            <button class="key" onclick="pressKey('9')">9</button>
+            
+            <!-- Unterste Reihe: Löschen, 0, OK -->
+            <button class="key key-action" onclick="deleteLastDigit()">⌫</button>
+            <button class="key" onclick="pressKey('0')">0</button>
+            <button class="key key-ok" onclick="checkCode()">OK</button>
+        </div>
+
+        <!-- Fehlermeldung (standardmäßig unsichtbar) -->
+        <div id="errorMessage" class="error-msg">Falscher Code! Zugriff verweigert.</div>
+
+    </div>
+
+    <!-- JavaScript für die sichere Code-Prüfung -->
+    <script>
+        let currentInput = "";
+        const maxDigits = 8; // Erlaubt Eingaben bis zu 8 Ziffern, bevor gestoppt wird
+        
+        // Der exakt berechnete SHA-256 Hash für die PIN
+        const correctHash = "a20a2b7bb0842d5cf8a0c06c626421fd51ec103925c1819a51271f2779afa730";
+
+
+        // Funktion zur Umwandlung in einen sicheren SHA-256 Code
+        async function sha256(message) {
+            const msgBuffer = new TextEncoder().encode(message);                    
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        // Wird aufgerufen, wenn eine Zahl getippt wird
+        function pressKey(num) {
+            if (currentInput.length < maxDigits) {
+                currentInput += num;
+                document.getElementById('errorMessage').style.display = "none";
+                updateDisplay();
+            }
+        }
+
+        // Löscht nur die letzte Ziffer (Pfeil-Taste)
+        function deleteLastDigit() {
+            if (currentInput.length > 0) {
+                currentInput = currentInput.slice(0, -1);
+                updateDisplay();
+            }
+        }
+
+        // Aktualisiert die Anzeige auf dem Display
+        function updateDisplay() {
+            const display = document.getElementById('codeDisplay');
+            if (currentInput.length === 0) {
+                display.innerText = "------";
+                display.classList.remove('has-digits');
+            } else {
+                // Erzeugt für jede Zahl ein Sternchen (oder zeigt die echten Zahlen mit currentInput)
+                display.innerText = "*".repeat(currentInput.length);
+                display.classList.add('has-digits');
+            }
+        }
+
+        // Überprüft den Code beim Klick auf OK
+        async function checkCode() {
+            if (currentInput.length === 0) return;
+
+            const inputHash = await sha256(currentInput);
+            const errorDiv = document.getElementById('errorMessage');
+            const display = document.getElementById('codeDisplay');
+
+            if (inputHash === correctHash) {
+                // Richtiger Code! Weiterleitung zum Glückwunschbildschirm
+                window.location.href = "glueckwunsch.html";
+            } else {
+                // Falscher Code! Rütteleffekt und rote Schrift auf dem Display
+                errorDiv.style.display = "block";
+                display.classList.add('shake', 'error-blink');
+                
+                // Nach der Animation alles zurücksetzen
+                setTimeout(() => {
+                    display.classList.remove('shake', 'error-blink');
+                    currentInput = "";
+                    updateDisplay();
+                }, 500);
+            }
+        }
+    </script>
+</body>
+</html>
