@@ -106,10 +106,31 @@ body, html {
     /* background-color: rgba(0, 122, 255, 0.3); */
 }
 
-/* Beispiel-Position für den Link im Instagram-Post */
-#instagram-link {
+/* Position für die Links */
+#link1 {
     top: 77%;      /* Abstand von der Oberkante des Tablet-Bildschirms in % */
     left: 16%;     /* Abstand von der Linkskante des Tablet-Bildschirms in % */
     width: 36%;    /* Breite der unsichtbaren Klick-Box */
     height: 4%;   /* Höhe der unsichtbaren Klick-Box */
+}
+
+#link2 {
+    top: 60%;      /* Abstand von der Oberkante des Tablet-Bildschirms in % */
+    left: 4%;     /* Abstand von der Linkskante des Tablet-Bildschirms in % */
+    width: 30%;    /* Breite der unsichtbaren Klick-Box */
+    height: 6%;   /* Höhe der unsichtbaren Klick-Box */
+}
+
+#link3 {
+    top: 2%;      /* Abstand von der Oberkante des Tablet-Bildschirms in % */
+    left: 40%;     /* Abstand von der Linkskante des Tablet-Bildschirms in % */
+    width: 15%;    /* Breite der unsichtbaren Klick-Box */
+    height: 4%;   /* Höhe der unsichtbaren Klick-Box */
+}
+
+#link4 {
+    top: 86%;      /* Abstand von der Oberkante des Tablet-Bildschirms in % */
+    left: 4%;     /* Abstand von der Linkskante des Tablet-Bildschirms in % */
+    width: 40%;    /* Breite der unsichtbaren Klick-Box */
+    height: 7%;   /* Höhe der unsichtbaren Klick-Box */
 }
